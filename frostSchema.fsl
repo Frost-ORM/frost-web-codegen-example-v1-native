@@ -1,0 +1,76 @@
+model Student {
+    @@node(path:"/testing/students")
+    name string
+    year  SchoolYear
+    birthday Date?
+    email string?
+
+    courses Course[] @Relation()
+    club Club @Relation()
+
+}
+
+enum SchoolYear {
+    FRESHMAN = "FRESHMAN"
+    SOPHOMORE = "SOPHOMORE"
+    JUNIOR = "JUNIOR"
+    SENIOR = "SENIOR"
+}
+
+model Professor {
+    @@node(path:"/testing/professors")
+    
+    name string
+    contactInfo ContactInfo?
+    department string
+    email string
+
+    courses Course[] @Relation()
+    club Club @Relation()
+}
+
+type ContactInfo {
+    phone   string
+    email   string
+}
+
+model Course {
+    @@node(path:"/testing/courses")
+    
+    name string
+    difficultyLevel DifficultyLevel
+    duration Duration // in weeks
+    department string
+
+    students Student[] @Relation()
+    professor Professor @Relation()
+}
+
+enum DifficultyLevel {
+    INTRODUCTORY = "INTRODUCTORY"
+    INTERMEDIATE = "INTERMEDIATE"
+    UPPER_INTERMEDIATE = "UPPER_INTERMEDIATE"
+    ADVANCED_PLACEMENT = "ADVANCED_PLACEMENT"
+}
+enum Duration {
+  FULL_YEAR = 24
+  FULL_SEMESTER = 12
+  HALF_SEMESTER = 6
+}
+
+model Club {
+    @@node(path:"/testing/clubs")
+
+    name string
+    type ClubType
+    roomId string
+
+    members Student[] @Relation()
+    supervisor Professor @Relation()
+}
+
+enum ClubType {
+    STEM = "STEM"
+    SPORTS = "SPORTS"
+    CREATIVE = "CREATIVE"
+}
